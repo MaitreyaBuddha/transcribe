@@ -7,12 +7,8 @@ on:
 jobs:
   transcribe:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/maitreyabuddha/transcribe:main
     steps:
-      - id: lower-repo
-        run: |
-          echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}:${{ github.ref_name }}" >> $GITHUB_ENV
-
-      - name: Run transcribe container
-        uses: docker://${IMAGE_TAG}
-        with:
-          args: transcribe-anything '${{ github.event.client_payload.transcribeUrl }}'
+      - name: Transcribe
+        run: transcribe-anything '${{ github.event.client_payload.transcribeUrl }}'
