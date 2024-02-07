@@ -12,8 +12,8 @@ jobs:
     steps:
       - id: lower-repo
         run: |
-          echo "IMAGE_TAG=${GITHUB_REPOSITORY@L}:${{ github.ref_name }}" >> $GITHUB_ENV
-          echo "IMAGE_TAG_SHA=${GITHUB_REPOSITORY@L}:${{ github.ref_name }}-${GITHUB_SHA::4}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}:${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "IMAGE_TAG_SHA=ghcr.io/${GITHUB_REPOSITORY@L}:${{ github.ref_name }}-${GITHUB_SHA::4}" >> $GITHUB_ENV
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
