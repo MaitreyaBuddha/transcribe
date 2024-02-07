@@ -1,0 +1,18 @@
+name: Transcribe URL
+
+on:
+  repository_dispatch:
+    types: [transcribe-event]
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set image name with lowercase repo
+        id: lower-repo
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: Run transcribe container
+        uses: docker://${IMAGE}
+        with:
+          args: transcribe-anything '${{ github.event.client_payload.transcribeUrl }}'
