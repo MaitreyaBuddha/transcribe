@@ -5,6 +5,8 @@ on:
     paths-ignore:
       - 'LICENSE'
       - 'README.md'
+      - 'Makefile'
+      - './github/workflows/transcribe.yml'
 
 jobs:
   build-and-push:
@@ -14,6 +16,7 @@ jobs:
         run: |
           echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}:${{ github.ref_name }}" >> $GITHUB_ENV
           echo "IMAGE_TAG_SHA=ghcr.io/${GITHUB_REPOSITORY@L}:${{ github.ref_name }}-${GITHUB_SHA::4}" >> $GITHUB_ENV
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 

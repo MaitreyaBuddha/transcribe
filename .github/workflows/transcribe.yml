@@ -8,11 +8,11 @@ jobs:
   transcribe:
     runs-on: ubuntu-latest
     steps:
-      - name: Set image name with lowercase repo
-        id: lower-repo
-        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_REF_NAME}" >> $GITHUB_ENV
+      - id: lower-repo
+        run: |
+          echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}:${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Run transcribe container
-        uses: docker://${IMAGE}
+        uses: docker://${IMAGE_TAG}
         with:
           args: transcribe-anything '${{ github.event.client_payload.transcribeUrl }}'
