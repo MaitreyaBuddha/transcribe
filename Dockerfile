@@ -5,10 +5,19 @@ RUN apt-get update && apt-get install -y \
     vim \
     make \
     telnet \
+    traceroute \
     && rm -rf /var/lib/apt/lists/*
 
-RUN python -m pip install --upgrade pip && pip install pipx && pipx ensurepath
+RUN pip install --no-cache-dir \
+        pipx==1.4.3 \
+        yt-dlp==2024.2.5.232712.dev0
 
-RUN pipx install transcribe-anything
+RUN pipx install transcribe-anything==2.7.25 && \
+    pipx ensurepath && \
+    rm -Rf /root/.cache/pip
 
-RUN transcribe-anything https://www.youtube.com/clip/UgkxR-aq_SeT9YnV5skFVvblU4tlH5wJKZhH
+ENV PATH=${PATH}:/root/.local/bin/
+
+RUN transcribe-anything https://vimeo.com/910700884/9b5b5993ce && \
+    rm -Rf /root/.cache/pip
+
