@@ -18,6 +18,7 @@ RUN pipx install transcribe-anything==2.7.25 && \
 
 ENV PATH=${PATH}:/root/.local/bin/
 
-RUN yt-dlp --no-check-certificate https://vimeo.com/910700884/9b5b5993ce -o test.o
+RUN yt-dlp --no-check-certificate https://vimeo.com/910700884/9b5b5993ce -o "out.%(ext)s"
+
 RUN transcribe-anything https://vimeo.com/910700884/9b5b5993ce && \
     rm -Rf /root/.cache
