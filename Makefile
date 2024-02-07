@@ -1,10 +1,11 @@
 
 USERNAME_OR_ORG=$(shell git config --get remote.origin.url | sed -n 's/.*github.com[:\/]\(.*\)\/.*/\1/p')
 REPO_NAME=$(shell basename -s .git `git config --get remote.origin.url`)
+IMAGE_REPO=ghcr.io/${USERNAME_OR_ORG}/$(REPO_NAME)
 BRANCH_NAME=$(shell git rev-parse --abbrev-ref HEAD)
-SHORT_SHA=$(shell git rev-parse --short=4 HEAD)
-IMAGE_PRE=ghcr.io/${USERNAME_OR_ORG}/$(REPO_NAME):$(BRANCH_NAME)
+IMAGE_PRE=${IMAGE_REPO}:$(BRANCH_NAME)
 IMAGE_TAG=$(shell echo ${IMAGE_PRE} | tr '[:upper:]' '[:lower:]')
+SHORT_SHA=$(shell git rev-parse --short=4 HEAD)
 IMAGE_TAG_SHA=${IMAGE_TAG}-$(SHORT_SHA)
 
 
@@ -16,8 +17,7 @@ build:
 
 push:
 	@echo "Pushing Docker images..."
-	@docker push \
-	--all-tags ghcr.io/$(REPO_NAME)
+	@docker push ${IMAGE_TAG}
 
 shell:
 	docker run \
